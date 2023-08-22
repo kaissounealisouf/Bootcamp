@@ -20,28 +20,29 @@ app.get(("/api/v1/tours"), (req, res)=>{
 })
 
 
-// Let is user create data or post some date on thr client side 
+//Let is user create data or post some date on the client side 
 
 app.post(("/api/v1/tours"), (req,res)=>{
 //Get the last id of the products
 
 const NewId= tours[tours.length-1].id + 1;
-console.log(NewId);
 
 //Assign the object 
-const newTour= Object.assign({id:NewId});
+const newTour= Object.assign({id:NewId}, req.body);
 console.log(newTour);
+// Now the let us  write /create the file 
+fs.writeFile(`${__dirname}/dev-data/data/tours-simple.json`, JSON.stringify(tours), err=>{
+    res.status(201).json({
+        status: "success",
+        data:{
+            tours:newTour
+        }
+    })
+});
 
 //Push the data posting or creating  or Writing by the User into the application Json.
-
-tours.push(newTour)
-
-
-
-
-
-res.send("is done")
-   
+ tours.push(newTour)
+  
 }
 )
 

@@ -1,3 +1,4 @@
+const { ifError } = require("assert");
 const express= require("express");
 const fs= require("fs")
 const app= express();
@@ -19,6 +20,34 @@ app.get(("/api/v1/tours"), (req, res)=>{
     })
 })
 
+//Request ID parameters:
+
+app.get(("/api/v1/tours/:id"), (req, res)=>{
+    console.log(req.params);
+     
+    const id=req.params.id *1;
+    const tour=tours.find(el =>el.id===id)
+    console.log(tour)
+
+    // if (id>tours.length || !tour){
+        if( !tour){
+          return res.status(400).json(
+            {
+                "message":"invalid request"
+            }
+        )
+        
+    } 
+        
+
+    res.status(200).json({
+        status:"success",
+        data:{
+            tour:tour
+        }
+       
+    })
+})
 
 //Let is user create data or post some date on the client side 
 
